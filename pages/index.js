@@ -36,6 +36,14 @@ onSubmit = async (event) => {
   this.setState({message: "You have been added to the lottery"})
 }
 
+onClick = async () =>{
+  this.setState({message : "Please wait ....."})
+  const accounts = await web3.eth.getAccounts();
+  const winner = await lottery.methods.pickWinner().send({
+    from : accounts[0]
+  })
+  this.setState({message : "Payment sent to winner"});
+}
     render(){
     return (
       <div>
@@ -49,7 +57,7 @@ onSubmit = async (event) => {
         <p> {this.state.message} </p>
         <hr /> <br /> <hr />
         <p> The manager of the lottery decentralized app is {this.state.manager}</p>
-        <button> Pick Winner </button>
+        <button onClick={this.onClick}> Pick Winner </button>
       </div>
     )
   }
